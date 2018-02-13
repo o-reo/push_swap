@@ -27,9 +27,8 @@ LDFLAGS = -L libft/
 
 all: $(NAME)
 
-label:
-	@echo "$(YELLOW)(╯°□°)–︻╦╤─ – – – PRINTF - - - "
-	@echo "  $(BLUE)Compiling $(NAME) library..."
+lib:
+	@make -C libft/
 
 $(NAME): $(OBJ)
 	@echo "\033[1;31mCompiling project..."
@@ -53,13 +52,5 @@ fclean:
 	@echo "  $(YELLOW)$(NAME) and OBJ files have been deleted."
 
 re: fclean $(NAME)
-
-copy:
-	@cp -rf build ../../vogsphere/printf
-	@cp -rf src ../../vogsphere/printf
-	@cp -rf includes ../../vogsphere/printf
-	@cp  Makefile ../../vogsphere/printf
-	@cp  auteur ../../vogsphere/printf
-	@echo "  $(YELLOW)$(NAME) have been copied to vogsphere."
 
 .PHONY = all clean fclean re norm lib
