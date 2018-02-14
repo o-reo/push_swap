@@ -18,4 +18,16 @@
 # include <unistd.h>
 # include <stdio.h>
 # include "libft.h"
+
+typedef struct  s_piles
+{
+    int             *pile_a;
+    int             *pile_b;
+    int             len;
+    char            *cmd;
+    struct s_piles  *next;
+}                   t_piles;
+int     iscmd(char *cmd);
+int     *swap(t_piles piles);
+void    exec_cmd(t_piles piles);
 #endif

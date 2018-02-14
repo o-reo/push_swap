@@ -14,7 +14,7 @@
 NAME = checker
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-FUNC = checker
+FUNC = checker valid
 SRC = $(addprefix src/, $(addsuffix .c, $(FUNC)))
 OBJ = $(addprefix build/, $(addsuffix .o, $(FUNC)))
 RED = \033[1;31m

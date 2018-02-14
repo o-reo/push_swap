@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   checker.c                                        .::    .:/ .      .::   */
+/*   valid.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
@@ -13,53 +13,12 @@
 
 #include "checker.h"
 
-int		error()
+int     iscmd(char *cmd)
 {
-	write(2, "Error\n", 6);
-	return (0);
-}
-
-void    print_tab(int *tab, int len)
-{
-    int     i;
-
-    i = 0;
-    while (i < len)
-    {
-        printf("%i\n", tab[i]);
-        i++;
-    }
-}
-
-
-
-int		main(int ac, char **av)
-{
-	char	*line;
-    int     i;
-    int     pile_a[ac - 1];
-    int     pile_b[ac - 1];
-    t_piles *piles;
-
-    if(!(piles = (t_piles*)malloc(sizeof(t_piles))))
-        return (error());
-    if (ac < 1)
-        return (error());
-    i = 0;
-    while (i < (ac - 1))
-    {
-        pile_a[i] = ft_atoi(av[i + 1]);
-        pile_b[i] = 0;
-        i++;
-    }
-    piles->pile_a = pile_a;
-    piles->pile_b = pile_b;
-    print_tab(pile_a, ac - 1);
-	while (get_next_line(1, &line) && line[0])
-    {
-        if (!iscmd(line))
-            return (error());
-
-    }
-    return (0);
+    return (!ft_strcmp(cmd, "sa") || !ft_strcmp(cmd, "sb") ||
+            !ft_strcmp(cmd, "ss") || !ft_strcmp(cmd, "pa") ||
+            !ft_strcmp(cmd, "pb") || !ft_strcmp(cmd, "ra") ||
+            !ft_strcmp(cmd, "rb") || !ft_strcmp(cmd, "rr") ||
+            !ft_strcmp(cmd, "rra") || !ft_strcmp(cmd, "rrb") ||
+            !ft_strcmp(cmd, "rrr"));
 }
