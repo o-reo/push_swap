@@ -22,8 +22,9 @@
 typedef struct  s_piles
 {
     int             *pile_a;
+    int             a_len;
     int             *pile_b;
-    int             len;
+    int             b_len;
     char            *cmd;
     struct s_piles  *next;
 }                   t_piles;

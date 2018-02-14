@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   checker.c                                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+     */
+/*   By: uman <uman@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/02/06 11:01:06 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/06 11:17:45 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Created: 2018/02/14 16:21:08 by uman         #+#   ##    ##    #+#       */
+/*   Updated: 2018/02/14 16:35:47 by uman        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,47 +19,47 @@ int		error()
 	return (0);
 }
 
-void    print_tab(int *tab, int len)
-{
-    int     i;
+/*
+ *	piles chained list contains the piles after each command and the current
+ *	piles.
+*/
 
-    i = 0;
-    while (i < len)
-    {
-        printf("%i\n", tab[i]);
-        i++;
-    }
+int		launch_sort(t_piles *pilelst)
+{
+	(void)pilelst;
+	return (0);
 }
 
-
+t_piles	*fill_piles(t_piles *piles, char *cmd)
+{
+	(void)cmd;
+	return(piles);
+}
 
 int		main(int ac, char **av)
 {
 	char	*line;
-    int     i;
-    int     pile_a[ac - 1];
-    int     pile_b[ac - 1];
-    t_piles *piles;
+	int		i;
+	t_piles	*piles;
+	t_piles	*pstart;
 
-    if(!(piles = (t_piles*)malloc(sizeof(t_piles))))
-        return (error());
-    if (ac < 1)
-        return (error());
-    i = 0;
-    while (i < (ac - 1))
-    {
-        pile_a[i] = ft_atoi(av[i + 1]);
-        pile_b[i] = 0;
-        i++;
-    }
-    piles->pile_a = pile_a;
-    piles->pile_b = pile_b;
-    print_tab(pile_a, ac - 1);
-	while (get_next_line(1, &line) && line[0])
-    {
-        if (!iscmd(line))
-            return (error());
-
-    }
-    return (0);
+	if(ac < 1 || !(piles = (t_piles*)malloc(sizeof(t_piles))) ||
+			!(piles->pile_a = (int*)malloc(sizeof(int) * (ac - 1))))
+		return (error());
+	pstart = piles;
+	i = 0;
+	while (i < (ac - 1))
+	{
+		piles->pile_a[i] = ft_atoi(av[i + 1]);
+		i++;
+	}
+	piles->a_len = ac - 1;
+	piles->b_len = 0;
+	while (get_next_line(0, &line) && line[0])
+	{
+		if (!iscmd(line))
+			return (error());
+		piles = fill_piles(piles, line);
+	}
+	return (launch_sort(pstart));
 }
