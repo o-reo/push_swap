@@ -6,7 +6,7 @@
 #   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+       #
 #                                                 #+#   #+    #+    #+#        #
 #   Created: 2017/11/07 17:44:25 by eruaud       #+#   ##    ##    #+#         #
-#   Updated: 2018/01/15 15:11:16 by eruaud      ###    #+. /#+    ###.fr       #
+#   Updated: 2018/02/16 13:44:15 by eruaud      ###    #+. /#+    ###.fr     # #
 #                                                         /                    #
 #                                                        /                     #
 # **************************************************************************** #
@@ -24,8 +24,13 @@ swap isspace strupcase strlowcase strcapitalize isupper islower \
 isblank strndup puttab_fd get_next_line
 HEADER = -I includes/
 NFUNC = $(addprefix ft_, $(FUNC))
-OBJ = $(addprefix build/, $(addsuffix .o, $(NFUNC)))
-SRC = $(addprefix src/, $(addsuffix .c, $(NFUNC)))
+PRINTF = ft_prf_atoi ft_prf_d ft_prf_launcher ft_prf_o ft_prf_pc ft_prf_s \
+		 ft_prf_strutils2 ft_prf_c ft_prf_d2 ft_prf_numutil ft_printf \
+		 ft_prf_p ft_prf_putwchar ft_prf_strutils ft_prf_utils ft_prf_x prf_tags
+OBJ = $(addprefix build/, $(addsuffix .o, $(NFUNC))) \
+      $(addprefix build/, $(addsuffix .o, $(PRINTF)))
+SRC = $(addprefix src/, $(addsuffix .c, $(NFUNC))) \
+      $(addprefix src, $(addsuffix .c, $(PRINTF)))
 
 all : $(NAME)
 
