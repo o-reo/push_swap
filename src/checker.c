@@ -6,14 +6,12 @@
 /*   By: uman <uman@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/14 16:21:08 by uman         #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/16 18:55:19 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/02/17 20:20:32 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "checker.h"
-#include "libft.h"
-#include "ft_printf.h"
 
 int			error(void)
 {
@@ -51,16 +49,19 @@ int			init_piles(int ac, char **av, t_piles **piles)
 
 	i = 0;
 	if (ac < 1 || !(*piles = (t_piles*)malloc(sizeof(t_piles))) ||
-			!((*piles)->pile_a = (int*)malloc(sizeof(int) * (ac - 1))))
+			!((*piles)->pile_a = (int*)malloc(sizeof(int) * (ac - 1))) ||
+			!((*piles)->pile_b = (int*)malloc(sizeof(int) * (ac - 1))))
 		return (0);
 	while (i < (ac - 1))
 	{
 		sw = ft_atoi_secure(av[i + 1]);
 		if (sw < CINT_MIN || sw > CINT_MAX)
 			return (0);
-		(*piles)->pile_a[i] = sw;
+			(*piles)->pile_a[i] = sw;
 		i++;
 	}
+	while (i--)
+		(*piles)->pile_b[i] = 0;
 	(*piles)->b_len = 0;
 	(*piles)->a_len = ac - 1;
 	(*piles)->next = NULL;
@@ -95,8 +96,14 @@ int			main(int ac, char **av)
 	while (get_next_line(0, &line) && line[0])
 	{
 		if (!iscmd(line))
+		{
+			ft_strdel(&line);
 			return (error());
+		}
 		piles = fill_piles(piles, &line);
+		ft_strdel(&line);
 	}
-	return (launch_sort(pstart));
+	launch_sort(pstart);
+	free_pilelst(pstart);
+	return (0);
 }

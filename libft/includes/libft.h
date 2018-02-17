@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/23 09:45:12 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/16 13:44:15 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/02/17 18:38:58 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,7 @@
 # include <libft.h>
 # include <fcntl.h>
 
-#define BUFF_SIZE 50
+#define BUFF_SIZE 3
 typedef	struct		s_list
 {
 	void			*content;

@@ -6,7 +6,7 @@
 #   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+       #
 #                                                 #+#   #+    #+    #+#        #
 #   Created: 2017/12/28 15:26:42 by eruaud       #+#   ##    ##    #+#         #
-#   Updated: 2018/02/16 17:53:05 by eruaud      ###    #+. /#+    ###.fr     # #
+#   Updated: 2018/02/17 15:10:37 by eruaud      ###    #+. /#+    ###.fr     # #
 #                                                         /                    #
 #                                                        /                     #
 # **************************************************************************** #
@@ -14,7 +14,7 @@
 NAME = checker
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-FUNC = checker valid testfiles cmds
+FUNC = checker testfiles cmds utils
 SRC = $(addprefix src/, $(addsuffix .c, $(FUNC)))
 OBJ = $(addprefix build/, $(addsuffix .o, $(FUNC)))
 RED = \033[1;31m
