@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   ft_strstr.c                                      .::    .:/ .      .::   */
+/*   utils2.c                                         .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: eruaud <marvin@le-101.fr>                  +:+   +:    +:    +:+     */
+/*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2017/11/23 09:44:09 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/20 13:32:03 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Created: 2018/02/20 17:41:36 by eruaud       #+#   ##    ##    #+#       */
+/*   Updated: 2018/02/20 17:41:37 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-char	*ft_strstr(char *str, char *to_find)
-{
-	int i;
-	int n;
+#include "push_swap.h"
 
-	i = 0;
-	if (to_find[0] == '\0')
-		return (str);
-	while (str[i] != '\0')
+
+int		check_pile_rotated(t_piles *piles)
+{
+	int		min;
+	int		i;
+
+	i = 1;
+	min = get_min_index(piles);
+	while(i < (piles->a_len))
 	{
-		n = 0;
-		while (to_find[n] == str[i + n])
-		{
-			if (to_find[n + 1] == '\0')
-				return (str + i);
-			n++;
-		}
+		if (piles->pile_a[real_index(piles, min + i)] <
+			piles->pile_a[real_index(piles, min + i - 1)])
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }

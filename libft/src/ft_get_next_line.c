@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/01/02 15:25:57 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/16 13:44:15 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/02/20 13:32:03 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,18 +15,18 @@
 
 static t_list	*find_fd(t_list **lst, int const fd)
 {
-	t_list		*new;
+	t_list		*newfd;
 
-	new = *lst;
-	while (new && fd != (int)(new->content_size))
-		new = new->next;
-	if (!new)
+	newfd = *lst;
+	while (newfd && fd != (int)(newfd->content_size))
+		newfd = newfd->next;
+	if (!newfd)
 	{
-		new = ft_lstnew(NULL, 0);
-		ft_lstadd(lst, new);
-		new->content_size = (int)fd;
+		newfd = ft_lstnew(NULL, 0);
+		ft_lstadd(lst, newfd);
+		newfd->content_size = (int)fd;
 	}
-	return (new);
+	return (newfd);
 }
 
 static int		current_line(char **line, t_list **str, int flag)
@@ -42,7 +42,7 @@ static int		current_line(char **line, t_list **str, int flag)
 			ft_strchr((*str)->content, '\n') + 1,
 			ft_strlen(ft_strchr((*str)->content, '\n')));
 	if (!flag)
-		(*str)->content = NULL;
+		free((*str)->content);
 	return (1);
 }
 

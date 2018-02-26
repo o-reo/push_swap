@@ -6,13 +6,13 @@
 /*   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/06 11:09:21 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/20 17:49:47 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/02/21 18:57:32 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef CHECKER_H
-# define CHECKER_H
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
 # include <stdlib.h>
 # include <stdarg.h>
 # include <unistd.h>
@@ -31,18 +31,22 @@ typedef struct		s_piles
 	char			*cmd;
 	struct s_piles	*next;
 }					t_piles;
-int					avtoi(t_piles *piles, int ac, char **av);
-intmax_t			ft_atoi_secure(char *str);
+int					count_numbers(char	**av);
+void				dup_piles(t_piles *dst, t_piles *src);
+int					print_lst(t_piles *lst);
+t_piles				*launch_cmd(t_piles *pile, char *cmd);
+t_piles				*exec_cmd(t_piles *pile);
+int					real_index(t_piles *pile, int index);
+int					check_pile_rotated(t_piles *piles);
+int					get_min_index(t_piles *piles);
+int					check_pile(t_piles *pilelst, int print);
+void				algo_select(t_piles *piles);
+void				algo_bucket(t_piles *piles);
 int					init_piles(int ac, char **av, t_piles **piles);
 t_piles				*fill_piles(t_piles *piles, char **line);
 int					check_dup(t_piles *pstart);
-void				dup_piles(t_piles *dst, t_piles *src);
-int					launch_sort(t_piles *pilelst);
-int					max(int a, int b);
-int					print_lst(t_piles *lst);
 int					error(void);
 int					put_link(t_piles *lst);
-int					check_pile(t_piles *pilelst, int print);
 int					iscmd(char *cmd);
 int					free_pilelst(t_piles *pilelst);
 void				rotate_pile(t_piles *pile, int ab, int rev);

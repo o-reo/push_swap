@@ -6,14 +6,14 @@
 /*   By: uman <uman@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/14 16:14:12 by uman         #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/17 20:18:29 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/02/21 18:56:56 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "checker.h"
 
-void	exec_s(t_piles *pile)
+void		exec_s(t_piles *pile)
 {
 	t_piles		*first;
 
@@ -34,7 +34,7 @@ void	exec_s(t_piles *pile)
 	}
 }
 
-void	exec_r(t_piles *pile, int rev)
+void		exec_r(t_piles *pile, int rev)
 {
 	t_piles		*first;
 	int			cmdlen;
@@ -49,7 +49,7 @@ void	exec_r(t_piles *pile, int rev)
 		rotate_pile(pile, 1, rev);
 }
 
-void	exec_p(t_piles *pile)
+void		exec_p(t_piles *pile)
 {
 	t_piles		*first;
 
@@ -74,28 +74,25 @@ void	exec_p(t_piles *pile)
 	}
 }
 
-void	exec_cmd(t_piles *pile)
+t_piles		*exec_cmd(t_piles *pile)
 {
 	if (pile->cmd == NULL)
-		return ;
+		return (NULL);
 	if ((pile->cmd)[0] == 's')
 		exec_s(pile);
 	else if ((pile->cmd)[0] == 'p')
 		exec_p(pile);
 	else if ((pile->cmd)[0] == 'r')
-		exec_r(pile, (pile->cmd)[1] == 'r');
+		exec_r(pile, ft_strlen(pile->cmd) > 2);
+	return (pile->next);
 }
 
-int		launch_sort(t_piles *pilelst)
+int			launch_sort(t_piles *pilelst)
 {
 	t_piles		*pstart;
 
 	pstart = pilelst;
 	while (pilelst)
-	{
-		exec_cmd(pilelst);
-		pilelst = pilelst->next;
-	}
-	//print_lst(pstart);
-	return (check_pile(pstart));
+		pilelst = exec_cmd(pilelst);
+	return (check_pile(pstart, 1));
 }

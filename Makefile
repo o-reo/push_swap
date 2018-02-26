@@ -6,15 +6,20 @@
 #   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+       #
 #                                                 #+#   #+    #+    #+#        #
 #   Created: 2017/12/28 15:26:42 by eruaud       #+#   ##    ##    #+#         #
-#   Updated: 2018/02/17 15:10:37 by eruaud      ###    #+. /#+    ###.fr     # #
+#   Updated: 2018/02/20 17:10:14 by eruaud      ###    #+. /#+    ###.fr     # #
 #                                                         /                    #
 #                                                        /                     #
 # **************************************************************************** #
 
 NAME = checker
+PNAME = push_swap
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-FUNC = checker testfiles cmds utils
+FUNC = checker testfiles cmds utils filling filling2
+PFUNC = push_swap testfiles utils utils2 filling algo_bucket algo_select cmds \
+filling2
+PSRC = $(addprefix src/, $(addsuffix .c, $(PFUNC)))
+POBJ = $(addprefix build/, $(addsuffix .o, $(PFUNC)))
 SRC = $(addprefix src/, $(addsuffix .c, $(FUNC)))
 OBJ = $(addprefix build/, $(addsuffix .o, $(FUNC)))
 RED = \033[1;31m
@@ -30,9 +35,10 @@ all: $(NAME)
 lib:
 	@make -C libft/
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(POBJ)
 	@echo "\033[1;31mCompiling project..."
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(HEADER) $(LDLIBS) $(LDFLAGS)
+	@$(CC) $(CFLAGS) -o $(PNAME) $(POBJ) $(HEADER) $(LDLIBS) $(LDFLAGS)
 	@echo "\033[1;92mSuccess !"
 
 ./build/%.o: ./src/%.c
@@ -42,13 +48,16 @@ $(NAME): $(OBJ)
 
 norm :
 	@norminette $(SRC)
+	@norminette $(PSRC)
 
 clean:
 	@/bin/rm -f $(OBJ)
+	@/bin/rm -f $(POBJ)
 	@echo "  $(YELLOW)OBJ files have been deleted."
 
 fclean:
 	@/bin/rm -f $(OBJ) $(NAME)
+	@/bin/rm -f $(POBJ) $(PNAME)
 	@echo "  $(YELLOW)$(NAME) and OBJ files have been deleted."
 
 re: fclean $(NAME)
