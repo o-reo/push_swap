@@ -39,7 +39,7 @@ intmax_t	ft_atoi_secure(char *str)
 		res = (res * 10) + str[i] - '0';
 		i++;
 	}
-	if (!i)
+	if (!i || (str[i] && !ft_isspace(str[i])))
 		exit(error());
 	return (minflag * res);
 }
@@ -61,6 +61,8 @@ int			count_numbers(int ac, char **av)
 				j++;
 			if ((av[i][j] && ((ft_isdigit(av[i][j])) || (av[i][j] == '-'))))
 				tot++;
+			else
+				return (0);
 			while ((av[i][j] && ((ft_isdigit(av[i][j])) || (av[i][j] == '-'))))
 				j++;
 		}
@@ -73,7 +75,8 @@ int			init_piles(int ac, char **av, t_piles **piles)
 {
 	int			len;
 
-	len = count_numbers(ac, av);
+	if (!(len = count_numbers(ac, av)))
+		return (0);
 	if (ac < 1 || !(*piles = (t_piles*)malloc(sizeof(t_piles))) ||
 		!((*piles)->pile_a = (int*)malloc(sizeof(int) * len)) ||
 		!((*piles)->pile_b = (int*)malloc(sizeof(int) * len)))

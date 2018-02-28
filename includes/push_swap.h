@@ -31,7 +31,7 @@ typedef struct		s_piles
 	char			*cmd;
 	struct s_piles	*next;
 }					t_piles;
-int					count_numbers(char	**av);
+int					count_numbers(int ac, char **av);
 void				dup_piles(t_piles *dst, t_piles *src);
 int					print_lst(t_piles *lst);
 t_piles				*launch_cmd(t_piles *pile, char *cmd);

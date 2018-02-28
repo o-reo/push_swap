@@ -24,7 +24,7 @@ t_piles		*launch_cmd(t_piles *pile, char *cmd)
 
 void		print_cmds(t_piles *piles)
 {
-	while (piles)
+	while (piles && piles->cmd)
 	{
 		ft_printf("%s\n", piles->cmd);
 		piles = piles->next;
@@ -45,7 +45,7 @@ int			main(int ac, char **av)
 	piles = NULL;
 	if (!init_piles(ac, av, &piles) || !check_dup(piles))
 		return (error());
-//	pushswap_launcher(piles);
+	pushswap_launcher(piles);
 	print_lst(piles);
 //	print_cmds(piles);
 //	free_pilelst(piles);

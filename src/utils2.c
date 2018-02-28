@@ -13,7 +13,6 @@
 
 #include "push_swap.h"
 
-
 int		check_pile_rotated(t_piles *piles)
 {
 	int		min;
@@ -21,7 +20,7 @@ int		check_pile_rotated(t_piles *piles)
 
 	i = 1;
 	min = get_min_index(piles);
-	while(i < (piles->a_len))
+	while (i < (piles->a_len))
 	{
 		if (piles->pile_a[real_index(piles, min + i)] <
 			piles->pile_a[real_index(piles, min + i - 1)])

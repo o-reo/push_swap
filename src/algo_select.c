@@ -17,18 +17,22 @@ int			get_next_index(t_piles *piles, int lastind)
 {
 	int		i;
 	int		inext;
+	int		next;
 
 	i = 1;
+	next = piles->pile_a[0];
 	inext = 0;
 	while (i < piles->a_len)
 	{
-		if (piles->pile_a[i] < piles->pile_a[inext] &&
+		if (piles->pile_a[i] < next &&
 				piles->pile_a[i] > piles->pile_a[lastind])
-			inext  = i;
+		{
+			next = piles->pile_a[i];
+			inext = i;
+		}
 		i++;
 	}
-	if (i == 1)
-		return (-1);
+	printf("next vaut %d\n", next);
 	return (inext);
 }
 
@@ -48,7 +52,6 @@ t_piles		*swap_min(t_piles *pile, int dst, int src)
 	int		ndst;
 
 
-	printf("dst = %i, src = %i\n", dst, src);
 	if (dst == src)
 		return (pile);
 	ndst = pile->pile_a[dst];
@@ -65,11 +68,10 @@ t_piles		*swap_min(t_piles *pile, int dst, int src)
 	}
 	else
 	{
-		//printf("dst = %i, src = %i\n", dst, src);
 		pile = launch_cmd(pile, "pb");
 		dir = (dst - src) <= (pile->a_len / 2);
 		while (pile->pile_a[0] != ndst)
-			pile = launch_cmd(pile, dir ? "ra" : "rra");
+			pile = launch_cmd(pile, dir ? "rra" : "ra");
 		pile = launch_cmd(pile, "pa");
 	}
 	return (pile);
@@ -87,18 +89,19 @@ void		reorder_pile(t_piles *piles)
 void		algo_select(t_piles *piles)
 {
 	int		prev;
+	int		i;
 
+	i = 0;
 	if (check_pile(piles, 0))
 		return ;
-	//put_link(piles);
-	prev = get_min_index(piles);
-	while (piles && !check_pile_rotated(piles))
+	prev = -1;
+	while (piles && !check_pile_rotated(piles) && i < 5)
 	{
-	//	printf("dst = %i, src = %i\n", real_index(piles, prev + 1), get_next_index(piles, prev));
-		piles = swap_min(piles, real_index(piles, prev + 1), get_next_index(piles, prev));
-		put_link(piles);
-		prev = get_next_index(piles, prev);
+		printf("je met %d en position %d\n", get_next_index(piles, prev), real_index(piles, prev + 1));
+		prev = prev == -1 ? get_min_index(piles) : get_next_index(piles, prev);
+		piles = swap_min(piles, real_index(piles, prev + 1), prev);
+//		put_link(piles);
+		i++;
 	}
-	reorder_pile(piles);
-//	put_link(piles);
+//	reorder_pile(piles);
 }
