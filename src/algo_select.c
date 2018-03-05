@@ -19,9 +19,9 @@ int			get_next_index(t_piles *piles, int lastind)
 	int		inext;
 	int		next;
 
-	i = 1;
-	next = piles->pile_a[0];
-	inext = 0;
+	i = 0;
+	next = CINT_MAX;
+	inext = -1;
 	while (i < piles->a_len)
 	{
 		if (piles->pile_a[i] < next &&
@@ -32,7 +32,6 @@ int			get_next_index(t_piles *piles, int lastind)
 		}
 		i++;
 	}
-	printf("next vaut %d\n", next);
 	return (inext);
 }
 
@@ -47,32 +46,28 @@ int			real_index(t_piles *pile, int index)
 
 t_piles		*swap_min(t_piles *pile, int dst, int src)
 {
-	int		dir;
-	int		nsrc;
-	int		ndst;
+	int				dir;
+	int				nsrc;
+	int				ndst;
+	int				i;
 
-
+	i = 0;
 	if (dst == src)
 		return (pile);
 	ndst = pile->pile_a[dst];
 	nsrc = pile->pile_a[src];
-	dir = src <= (pile->a_len / 2);
-	while (pile->pile_a[0] != nsrc)
+	ft_printf("%d[%d] -> %d[%d]\n", nsrc, src, ndst, dst);
+	dir = (int)ft_abs(src - dst) <= (pile->a_len / 2);
+	ft_printf("dir %d\n", dir);
+	while (pile->pile_a[!dir] != nsrc)
+		pile = launch_cmd(pile, dir ? "ra" : "rra");
+	pile = launch_cmd(pile, "sa");
+	printf ("ecart vaut %d\n", real_index(pile, src - dst));
+	while (i < real_index(pile, src - dst))
+	{
 		pile = launch_cmd(pile, "ra");
-	if (dst == real_index(pile, src + 1))
 		pile = launch_cmd(pile, "sa");
-	else if (dst == real_index(pile, src - 1))
-	{
-		pile = launch_cmd(pile, "rra");
-		pile = launch_cmd(pile, "sa");
-	}
-	else
-	{
-		pile = launch_cmd(pile, "pb");
-		dir = (dst - src) <= (pile->a_len / 2);
-		while (pile->pile_a[0] != ndst)
-			pile = launch_cmd(pile, dir ? "rra" : "ra");
-		pile = launch_cmd(pile, "pa");
+		i++;
 	}
 	return (pile);
 }
@@ -94,14 +89,16 @@ void		algo_select(t_piles *piles)
 	i = 0;
 	if (check_pile(piles, 0))
 		return ;
-	prev = -1;
-	while (piles && !check_pile_rotated(piles) && i < 5)
-	{
-		printf("je met %d en position %d\n", get_next_index(piles, prev), real_index(piles, prev + 1));
-		prev = prev == -1 ? get_min_index(piles) : get_next_index(piles, prev);
-		piles = swap_min(piles, real_index(piles, prev + 1), prev);
+	prev = get_min_index(piles);
+//	while (piles && !check_pile_rotated(piles) && i < 5)
+//	{
+//		printf("je met %d en position %d\n", get_next_index(piles, prev), real_index(piles, prev + 1));
+		if (prev == -1)
+			return ;
+		piles = swap_min(piles, real_index(piles, prev + 1), get_next_index(piles, prev));
+		prev = get_next_index(piles, prev);
 //		put_link(piles);
 		i++;
-	}
+//	}
 //	reorder_pile(piles);
 }
