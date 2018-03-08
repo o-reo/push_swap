@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "push_swap.h"
 
 void	dup_piles(t_piles *dst, t_piles *src)
 {
@@ -19,9 +19,10 @@ void	dup_piles(t_piles *dst, t_piles *src)
 
 	if (!src)
 		return ;
-	if (!(dst->pile_a = malloc(sizeof(int) * (src->a_len + src->b_len))))
-		return ;
-	if (!(dst->pile_b = malloc(sizeof(int) * (src->a_len + src->b_len))))
+	if (!(dst->pile_a = malloc(sizeof(int) * (src->a_len + src->b_len))) ||
+		!(dst->pile_b = malloc(sizeof(int) * (src->a_len + src->b_len))) ||
+		!(dst->index_a = malloc(sizeof(int) * (src->a_len + src->b_len))) ||
+		!(dst->index_b = malloc(sizeof(int) * (src->a_len + src->b_len))))
 		return ;
 	dst->b_len = src->b_len;
 	dst->a_len = src->a_len;
@@ -29,33 +30,32 @@ void	dup_piles(t_piles *dst, t_piles *src)
 	while (i < (dst->a_len + dst->b_len))
 	{
 		dst->pile_a[i] = src->pile_a[i];
+		dst->index_a[i] = src->index_a[i];
 		dst->pile_b[i] = src->pile_b[i];
+		dst->index_b[i] = src->index_b[i];
 		i++;
 	}
 }
 
 void	rotate_pile(t_piles *pile, int ab, int rev)
 {
-	int		last;
 	int		*pile_tab;
 	int		pile_len;
 	int		i;
+	int 	*index_tab;
 
 	if ((!ab && !pile->a_len) || (ab && !pile->b_len))
 		return ;
 	pile_tab = !ab ? pile->pile_a : pile->pile_b;
+	index_tab = !ab ? pile->index_a : pile->index_b;
 	pile_len = !ab ? pile->a_len : pile->b_len;
-	last = rev ? pile_tab[pile_len - 1] : pile_tab[0];
-	i = rev ? pile_len - 1 : 0;
-	while ((rev && i > 0) || (!rev && i < pile_len))
+	i = !rev ? pile_len - 1 : 1;
+	while (i < pile_len && i)
 	{
-		pile_tab[i] = pile_tab[i - rev + !rev];
-		i = i - rev + !rev;
+		bit_swapper(pile_tab, i - 1, i);
+		bit_swapper(index_tab, i - 1, i);
+		i += 1 - 2 * !rev;
 	}
-	if (rev)
-		pile_tab[0] = last;
-	else
-		pile_tab[pile_len - 1] = last;
 }
 
 int		iscmd(char *cmd)

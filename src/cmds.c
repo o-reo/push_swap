@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "push_swap.h"
 
 void		exec_s(t_piles *pile)
 {
@@ -22,22 +22,20 @@ void		exec_s(t_piles *pile)
 	pile = pile->next;
 	if (first->cmd[1] == 'a' || first->cmd[1] == 's')
 	{
-		pile->pile_a[0] = pile->pile_a[0] ^ pile->pile_a[1];
-		pile->pile_a[1] = pile->pile_a[0] ^ pile->pile_a[1];
-		pile->pile_a[0] = pile->pile_a[0] ^ pile->pile_a[1];
+		bit_swapper(pile->pile_a, 0, 1);
+		bit_swapper(pile->index_a, 0, 1);
 	}
 	if (first->cmd[1] == 'b' || first->cmd[1] == 's')
 	{
-		pile->pile_b[0] = pile->pile_b[0] ^ pile->pile_b[1];
-		pile->pile_b[1] = pile->pile_b[0] ^ pile->pile_b[1];
-		pile->pile_b[0] = pile->pile_b[0] ^ pile->pile_b[1];
+		bit_swapper(pile->pile_b, 0, 1);
+		bit_swapper(pile->index_b, 0, 1);
 	}
 }
 
 void		exec_r(t_piles *pile, int rev)
 {
-	t_piles		*first;
-	int			cmdlen;
+	t_piles			*first;
+	unsigned int	cmdlen;
 
 	cmdlen = ft_strlen(pile->cmd);
 	first = pile;
@@ -59,17 +57,19 @@ void		exec_p(t_piles *pile)
 	if (pile->b_len > 0 && first->cmd[1] == 'a')
 	{
 		pile->a_len++;
-		rotate_pile(pile, 0, 1);
+		rotate_pile(pile, 0, 0);
 		(pile->pile_a)[0] = (pile->pile_b)[0];
-		rotate_pile(pile, 1, 0);
+		(pile->index_a)[0] = (pile->index_b)[0];
+		rotate_pile(pile, 1, 1);
 		pile->b_len--;
 	}
 	if (pile->a_len > 0 && first->cmd[1] == 'b')
 	{
 		pile->b_len++;
-		rotate_pile(pile, 1, 1);
+		rotate_pile(pile, 1, 0);
 		(pile->pile_b)[0] = (pile->pile_a)[0];
-		rotate_pile(pile, 0, 0);
+		(pile->index_b)[0] = (pile->index_a)[0];
+		rotate_pile(pile, 0, 1);
 		pile->a_len--;
 	}
 }

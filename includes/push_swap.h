@@ -25,12 +25,25 @@
 typedef struct		s_piles
 {
 	int				*pile_a;
+	int 			*index_a;
 	int				a_len;
 	int				*pile_b;
+	int 			*index_b;
 	int				b_len;
 	char			*cmd;
 	struct s_piles	*next;
 }					t_piles;
+t_piles				*launch_cmd(t_piles *pile, char *cmd);
+int					get_min_index(t_piles *piles);
+void				reorder_pile(t_piles *piles);
+int					get_next_index(t_piles *piles, int lastind);
+intmax_t			ft_atoi_secure(char *str);
+int					avtoi(t_piles *piles, int ac, char **av);
+int					launch_sort(t_piles *pilelst);
+void				bit_swapper(int *tab, int i1, int i2);
+int					put_indexes(t_piles *lst);
+t_piles				*bubble_sort(t_piles *pile);
+int					is_next(t_piles *pile, int a, int b);
 int					count_numbers(int ac, char **av);
 void				dup_piles(t_piles *dst, t_piles *src);
 int					print_lst(t_piles *lst);
@@ -42,6 +55,7 @@ int					get_min_index(t_piles *piles);
 int					check_pile(t_piles *pilelst, int print);
 void				algo_select(t_piles *piles);
 void				algo_bucket(t_piles *piles);
+void				algo_quicksort(t_piles *piles);
 int					init_piles(int ac, char **av, t_piles **piles);
 t_piles				*fill_piles(t_piles *piles, char **line);
 int					check_dup(t_piles *pstart);

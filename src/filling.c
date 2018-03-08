@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "push_swap.h"
 
 int			error(void)
 {
@@ -79,7 +79,9 @@ int			init_piles(int ac, char **av, t_piles **piles)
 		return (0);
 	if (ac < 1 || !(*piles = (t_piles*)malloc(sizeof(t_piles))) ||
 		!((*piles)->pile_a = (int*)malloc(sizeof(int) * len)) ||
-		!((*piles)->pile_b = (int*)malloc(sizeof(int) * len)))
+		!((*piles)->index_a = (int*)malloc(sizeof(int) * len)) ||
+		!((*piles)->pile_b = (int*)malloc(sizeof(int) * len)) ||
+		!((*piles)->index_b = (int*)malloc(sizeof(int) * len)))
 		return (0);
 	if (!avtoi(*piles, ac, av))
 		return (0);
@@ -87,6 +89,7 @@ int			init_piles(int ac, char **av, t_piles **piles)
 	(*piles)->a_len = len;
 	(*piles)->next = NULL;
 	(*piles)->cmd = NULL;
+	bubble_sort(*piles);
 	if ((*piles)->a_len < 1)
 		return (0);
 	return (1);

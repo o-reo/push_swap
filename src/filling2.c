@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "push_swap.h"
 
 int		increment_tot(t_piles *piles, char *str, int j, int tot)
 {

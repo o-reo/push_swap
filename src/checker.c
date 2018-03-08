@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "push_swap.h"
 
 int			main(int ac, char **av)
 {
@@ -23,7 +23,7 @@ int			main(int ac, char **av)
 	if (!init_piles(ac, av, &piles) || !check_dup(piles))
 		return (error());
 	pstart = piles;
-	while ((get_next_line(0, &line) == 1) && line[0])
+	while ((get_next_line(0, &line) == 1))
 	{
 		if (!iscmd(line))
 		{

@@ -13,21 +13,7 @@
 
 #include "push_swap.h"
 
-int		get_min_index(t_piles *piles)
-{
-	int		i;
-	int		imin;
 
-	i = 1;
-	imin = 0;
-	while (i < piles->a_len)
-	{
-		if (piles->pile_a[i] < piles->pile_a[imin])
-			imin  = i;
-		i++;
-	}
-	return (imin);
-}
 
 int		check_pile_b(t_piles *pilelst)
 {
