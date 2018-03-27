@@ -53,3 +53,19 @@ int		index_to_value(t_piles *pile, int ab, int index)
 		value = pile_tab[i];
 	return (value);
 }
+
+int 	get_index(t_piles *pile, int ab, int pos)
+{
+	int 	i;
+	int 	*index_tab;
+	int 	pile_len;
+
+	index_tab = !ab ? pile->index_a : pile->index_b;
+	pile_len = !ab ? pile->a_len : pile->b_len;
+	i = 0;
+	while (i < pile_len && index_tab[i] != pos)
+		i++;
+	if (i == pile_len)
+		return (-1);
+	return (i);
+}

@@ -19,22 +19,24 @@ void		reorder_pile(t_piles *piles)
 
 	dir = get_min_index(piles) > (piles->a_len / 2);
 	while (get_min_index(piles) != 0)
-		piles = launch_cmd(piles, dir ? "ra" : "rra");
+		piles = launch_cmd(piles, dir ? "rra" : "ra");
 }
 
 int			get_next_index(t_piles *piles, int lastind)
 {
 	int 	i;
 
-	if (piles->index_a[lastind] < piles->a_len)
+	if (lastind < piles->a_len - 1)
 	{
 		i = 0;
-		while (piles->index_a[i] != (piles->index_a[lastind] + 1))
+		while (i < piles->a_len)
+		{
+			if (piles->index_a[i] == lastind + 1)
+				return (i);
 			i++;
-		return (piles->pile_a[i]);
+		}
 	}
-	else
-		return (-1);
+	return (-1);
 }
 
 int			real_index(t_piles *pile, int index)
@@ -55,7 +57,7 @@ int		get_min_index(t_piles *piles)
 	imin = 0;
 	while (i < piles->a_len)
 	{
-		if (piles->pile_a[i] < piles->pile_a[imin])
+		if (piles->index_a[i] == 0)
 			imin  = i;
 		i++;
 	}

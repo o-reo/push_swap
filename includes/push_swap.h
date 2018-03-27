@@ -33,6 +33,8 @@ typedef struct		s_piles
 	char			*cmd;
 	struct s_piles	*next;
 }					t_piles;
+void				algo_insert(t_piles *piles);
+int 				get_index(t_piles *pile, int ab, int pos);
 int					value_to_index(t_piles *pile, int ab, int value);
 int					index_to_value(t_piles *pile, int ab, int index);
 t_piles				*launch_cmd(t_piles *pile, char *cmd);

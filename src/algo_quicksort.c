@@ -103,6 +103,16 @@ int 		get_median(t_piles *pile, int st, int end, int ab)
 	return (i - 1);
 }
 
+int 		logbin(int n)
+{
+	int 	pow;
+
+	pow = 0;
+	while (n >> pow != 0)
+		pow++;
+	return (pow);
+}
+
 t_piles		*seq_split(t_piles *pile, int st, int end, int ab)
 {
 	int			i;
@@ -124,17 +134,43 @@ t_piles		*seq_split(t_piles *pile, int st, int end, int ab)
 	return (pile);
 }
 
+t_piles		*seq_split_sup(t_piles *pile, int st, int end, int ab)
+{
+	int			i;
+	int			*index_tab;
+	int 		med;
+
+	i = st;
+	index_tab = !ab ? pile->index_a : pile->index_b;
+	med = index_tab[get_median(pile, st, end, ab)];
+	while (i < end)
+	{
+		index_tab = !ab ? pile->index_a : pile->index_b;
+		if (index_tab[0] >= med)
+			pile = launch_cmd(pile, !ab ? "pb" : "pa");
+		else
+			pile = launch_cmd(pile, !ab ? "ra" : "rb");
+		i++;
+	}
+	return (pile);
+}
+
+
 t_piles		*ft_qsort(t_piles *pile, int st, int end)
 {
-	if (st >= end)
-		return (pile);
 	pile = seq_split(pile, st, end, 0);
-	pile = seq_split(pile, st, end / 2, 1);
-	ft_qsort(pile, st, end / 2);
+	while (end > 0)
+	{
+		pile = seq_split_sup(pile, st, end / 2, 1);
+		end /= 2;
+	}
+	pile = launch_cmd(pile, "ra");
+//	pile = ft_qsort(pile, 1,3);
 	return (pile);
 }
 
 void		algo_quicksort(t_piles *piles)
 {
+//	printf("bilog is %i\n", bilog(piles->pile_a[0]));
 	piles = ft_qsort(piles, 0, piles->a_len);
 }

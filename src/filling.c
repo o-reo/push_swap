@@ -39,7 +39,8 @@ intmax_t	ft_atoi_secure(char *str)
 		res = (res * 10) + str[i] - '0';
 		i++;
 	}
-	if (!i || (str[i] && !ft_isspace(str[i])))
+	if (!i || (str[i] && !ft_isspace(str[i])) || res > CINT_MAX ||
+			minflag * res < CINT_MIN)
 		exit(error());
 	return (minflag * res);
 }

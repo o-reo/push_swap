@@ -25,22 +25,33 @@ void		print_cmds(t_piles *piles)
 int			pushswap_launcher(t_piles *piles)
 {
 //	if (piles->a_len > 0 && piles->a_len < 6)
-		algo_quicksort(piles);
+//		algo_quicksort(piles);
+//	algo_select(piles);
+	algo_insert(piles);
 	return (0);
 }
 
 int			main(int ac, char **av)
 {
 	t_piles	*piles;
+	char 	**tmp;
 
 	piles = NULL;
 	if (ac < 2)
 		return (0);
-	if (!init_piles(ac, av, &piles) || !check_dup(piles))
+	tmp = av;
+	if (ac > 1 && !ft_strcmp("-v", av[1]))
+	{
+		tmp = av + 1;
+		ac--;
+	}
+	if (!init_piles(ac, tmp, &piles) || !check_dup(piles))
 		return (error());
 	pushswap_launcher(piles);
-//	print_lst(piles);
-	print_cmds(piles);
+	if (!ft_strcmp(av[1], "-v"))
+		print_lst(piles);
+	else
+		print_cmds(piles);
 	free_pilelst(piles);
 	return (0);
 }

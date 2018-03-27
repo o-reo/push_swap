@@ -20,6 +20,8 @@ int			main(int ac, char **av)
 	t_piles	*pstart;
 
 	piles = NULL;
+	if (ac == 1)
+		return (0);
 	if (!init_piles(ac, av, &piles) || !check_dup(piles))
 		return (error());
 	pstart = piles;
