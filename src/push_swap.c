@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/19 15:56:49 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/21 19:11:15 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/03/30 18:59:46 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,10 +24,14 @@ void		print_cmds(t_piles *piles)
 
 int			pushswap_launcher(t_piles *piles)
 {
-//	if (piles->a_len > 0 && piles->a_len < 6)
-//		algo_quicksort(piles);
-//	algo_select(piles);
-	algo_insert(piles);
+	if (piles->a_len > 0 && piles->a_len < 6)
+		algo_bogo(piles);
+	else if (piles->a_len > 0 && piles->a_len < 20)
+		algo_insert(piles);
+	else
+		algo_quicksort(piles);
+	post_process(piles);
+	algo_bogo(piles);
 	return (0);
 }
 

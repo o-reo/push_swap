@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/17 15:04:54 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/20 13:32:03 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/03/30 19:09:50 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -91,10 +91,22 @@ int		free_pilelst(t_piles *pilelst)
 	while (pilelst)
 	{
 		free(pilelst->pile_a);
+		free(pilelst->index_a);
 		free(pilelst->pile_b);
+		free(pilelst->index_b);
 		free(pilelst->cmd);
 		free(pilelst);
 		pilelst = pilelst->next;
 	}
 	return (0);
+}
+
+void	free_pile(t_piles *pile)
+{
+		free(pile->pile_a);
+		free(pile->index_a);
+		free(pile->pile_b);
+		free(pile->index_b);
+		free(pile);
+		pile = NULL;
 }

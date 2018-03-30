@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/19 15:59:34 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/19 15:59:53 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/03/30 19:14:09 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -94,6 +94,34 @@ int			init_piles(int ac, char **av, t_piles **piles)
 	if ((*piles)->a_len < 1)
 		return (0);
 	return (1);
+}
+
+int			pile_len(t_piles *pile)
+{
+	int		len;
+
+	len = 0;
+	while (pile)
+	{
+		pile = pile->next;
+		len++;
+	}
+	return (len);
+}
+
+void		reset_piles(t_piles *pile)
+{
+	int		len;
+	t_piles *pstart;
+
+	pstart = pile->next;
+	len = pile_len(pile) - 1;
+	while (len-- > 0 && pstart)
+	{
+		free_pile(pstart);
+		pstart = pstart->next;
+	}
+	pile->next = NULL;
 }
 
 t_piles		*fill_piles(t_piles *piles, char **line)

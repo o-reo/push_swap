@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   checker.h                                        .::    .:/ .      .::   */
+/*   push_swap.h                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+     */
+/*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/06 11:09:21 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/21 18:57:32 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/03/30 17:46:44 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,6 +33,10 @@ typedef struct		s_piles
 	char			*cmd;
 	struct s_piles	*next;
 }					t_piles;
+void				reset_piles(t_piles *pile);
+void				free_pile(t_piles *pile);
+void				algo_bogo(t_piles *piles);
+t_piles				*post_process(t_piles *piles);
 void				algo_insert(t_piles *piles);
 int 				get_index(t_piles *pile, int ab, int pos);
 int					value_to_index(t_piles *pile, int ab, int value);

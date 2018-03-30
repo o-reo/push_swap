@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 # **************************************************************************** #
 #                                                          LE - /              #
 #                                                              /               #
@@ -19,17 +21,19 @@ import os
 from math import sqrt
 
 '''
+__project__ = "push_swap visualizer"
+__author__ = "Emmanuel Ruaud"
+__email__ = "eruaud@student.le-101.fr"
 This python script was created to visualize your work with the PUSH_SWAP
 42 Project.
 You must put this script in the same path or in a sibling path of your program
 Of course you need Python3 with the builtin Tkinter.
 You can install it with Brew.
 --> Brew install python3
-Execute the script with : 
---> python3 pyvis.py `ruby -e "puts (-200..200).to_a.shuffle.join(' ')"` 
+Execute the script with :
+--> python3 pyvis.py `ruby -e "puts (-200..200).to_a.shuffle.join(' ')"`
 You can change the PUSHS_PATH to get to the relative path of your push_swap
-You can decrease the speed by pressing repeatedly the LEFT KEY 
-or increase by pressing repeatedly the RIGHT KEY
+You can decrease or increase the speed with the matching buttons.
 '''
 
 RELATIVE_PATH = r'push_swap'
@@ -128,31 +132,37 @@ class PsGui:
 			self.pile_a[0], self.pile_a[1] = self.pile_a[1], self.pile_a[0]
 		if cmd == b'sb' and len(self.pile_b) >= 2:
 			self.pile_b[0], self.pile_b[1] = self.pile_b[1], self.pile_b[0]
-		if cmd == b'ss' and len(self.pile_a) >= 2 and len(self.pile_b) >= 2:
-			self.pile_a[0], self.pile_a[1] = self.pile_a[1], self.pile_a[0]
-			self.pile_b[0], self.pile_b[1] = self.pile_b[1], self.pile_b[0]
+		if cmd == b'ss':
+			if (len(self.pile_a) >= 2):
+				self.pile_a[0], self.pile_a[1] = self.pile_a[1], self.pile_a[0]
+			if (len(self.pile_b) >= 2):
+				self.pile_b[0], self.pile_b[1] = self.pile_b[1], self.pile_b[0]
 		if cmd == b'ra' and len(self.pile_a) >= 2:
 			self.pile_a.append(self.pile_a[0])
 			del self.pile_a[0]
 		if cmd == b'rb' and len(self.pile_b) >= 2:
 			self.pile_b.append(self.pile_b[0])
 			del self.pile_b[0]
-		if cmd == b'rr' and len(self.pile_a) >= 2 and len(self.pile_b) >= 2:
-			self.pile_a.append(self.pile_a[0])
-			del self.pile_a[0]
-			self.pile_b.append(self.pile_b[0])
-			del self.pile_b[0]
+		if cmd == b'rr':
+			if (len(self.pile_a) >= 2):
+				self.pile_a.append(self.pile_a[0])
+				del self.pile_a[0]
+			if (len(self.pile_b) >= 2):
+				self.pile_b.append(self.pile_b[0])
+				del self.pile_b[0]
 		if cmd == b'rra' and len(self.pile_a) >= 2:
 			self.pile_a = [self.pile_a[-1]] + self.pile_a
 			del self.pile_a[-1]
 		if cmd == b'rrb' and len(self.pile_b) >= 2:
 			self.pile_b = [self.pile_b[-1]] + self.pile_b
 			del self.pile_b[-1]
-		if cmd == b'rrr' and len(self.pile_a) >= 2 and len(self.pile_b) >= 2:
-			self.pile_a = [self.pile_a[-1]] + self.pile_a
-			del self.pile_a[-1]
-			self.pile_b = [self.pile_b[-1]] + self.pile_b
-			del self.pile_b[-1]
+		if cmd == b'rrr':
+			if (len(self.pile_a) >= 2):
+				self.pile_a = [self.pile_a[-1]] + self.pile_a
+				del self.pile_a[-1]
+			if (len(self.pile_b) >= 2):
+				self.pile_b = [self.pile_b[-1]] + self.pile_b
+				del self.pile_b[-1]
 		if cmd == b'pa' and len(self.pile_b) >= 1:
 			self.pile_a = [self.pile_b[0]] + self.pile_a
 			del self.pile_b[0]
@@ -160,6 +170,13 @@ class PsGui:
 			self.pile_b = [self.pile_a[0]] + self.pile_b
 			del self.pile_a[0]
 		return self.pile_a, self.pile_b
+
+	def set_color(self, index):
+		col = '#%02x%02x%02x' % (int(255 * (index - 0.3) * (index > 0.3)),
+						int(255 * index
+						- ((510 * (index - 0.6)) * (index > 0.6))),
+						int((255 - 510 * index) * (index < 0.5)))
+		return col
 
 	def draw_rectangles(self):
 		vi = 0
@@ -175,7 +192,7 @@ class PsGui:
 			for vala in a_val:
 				rects.append(self.can.create_rectangle(0, vi,
 					10 + vala * (hw - 100), vi + wh / hm,
-							fill=self.a_color, outline=""))
+							fill=self.set_color(vala), outline=""))
 				vi += wh / hm
 		vi = 0
 		if len(self.pile_b) > 0:
@@ -183,7 +200,7 @@ class PsGui:
 			for valb in b_val:
 				rects.append(self.can.create_rectangle(hw, vi,
 					hw + 10 + valb * (hw - 100), vi + wh / hm,
-							fill=self.b_color, outline=""))
+							fill=self.set_color(valb), outline=""))
 				vi += wh / hm
 
 	def launch(self):

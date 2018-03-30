@@ -1,23 +1,24 @@
 # **************************************************************************** #
-#                                                          LE - /              #
-#                                                              /               #
-#   Makefile                                         .::    .:/ .      .::     #
-#                                                 +:+:+   +:    +:  +:+:+      #
-#   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+       #
-#                                                 #+#   #+    #+    #+#        #
-#   Created: 2017/12/28 15:26:42 by eruaud       #+#   ##    ##    #+#         #
-#   Updated: 2018/02/20 17:10:14 by eruaud      ###    #+. /#+    ###.fr     # #
+#                                                           LE - /             #
+#                                                               /              #
+#    Makefile                                         .::    .:/ .      .::    #
+#                                                  +:+:+   +:    +:  +:+:+     #
+#    By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+      #
+#                                                  #+#   #+    #+    #+#       #
+#    Created: 0017/12/28 15:26:42 by ruaud        #+#   ##    ##    #+#        #
+#    Updated: 2018/03/29 17:27:40 by eruaud      ###    #+. /#+    ###.fr      #
+#                                                          /                   #
 #                                                         /                    #
-#                                                        /                     #
 # **************************************************************************** #
 
 NAME = checker
 PNAME = push_swap
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-COMMON = testfiles cmds utils utils2 utils3 utils4 filling filling2
+COMMON = testfiles cmds utils utils2 utils3 utils4 filling filling2 postproc
 FUNC = checker $(COMMON)
-PFUNC = algo_bucket algo_select algo_quicksort push_swap $(COMMON)
+PFUNC = algo_bucket algo_select algo_insert algo_quicksort algo_bogo \
+		push_swap $(COMMON)
 PSRC = $(addprefix src/, $(addsuffix .c, $(PFUNC)))
 POBJ = $(addprefix build/, $(addsuffix .o, $(PFUNC)))
 SRC = $(addprefix src/, $(addsuffix .c, $(FUNC)))
