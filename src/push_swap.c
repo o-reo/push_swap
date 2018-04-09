@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/19 15:56:49 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/30 18:59:46 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/09 14:10:21 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,24 +15,22 @@
 
 void		print_cmds(t_piles *piles)
 {
-	while (piles && piles->cmd)
+	while (piles->next && piles->cmd)
 	{
 		ft_printf("%s\n", piles->cmd);
 		piles = piles->next;
 	}
 }
 
-int			pushswap_launcher(t_piles *piles)
+void	pushswap_launcher(t_piles **piles)
 {
-	if (piles->a_len > 0 && piles->a_len < 6)
+	// if ((*piles)->a_len > 0 && (*piles)->a_len < 6)
 		algo_bogo(piles);
-	else if (piles->a_len > 0 && piles->a_len < 20)
-		algo_insert(piles);
-	else
-		algo_quicksort(piles);
-	post_process(piles);
-	algo_bogo(piles);
-	return (0);
+	// else if ((*piles)->a_len > 0 && (*piles)->a_len < 20)
+		// *piles = algo_insert(*piles);
+	// else
+		// *piles = algo_quicksort(*piles);
+	// post_process(*piles);
 }
 
 int			main(int ac, char **av)
@@ -51,10 +49,10 @@ int			main(int ac, char **av)
 	}
 	if (!init_piles(ac, tmp, &piles) || !check_dup(piles))
 		return (error());
-	pushswap_launcher(piles);
+	pushswap_launcher(&piles);
 	if (!ft_strcmp(av[1], "-v"))
 		print_lst(piles);
-	else
+	else if (piles->cmd && ft_strlen(piles->cmd) > 0)
 		print_cmds(piles);
 	free_pilelst(piles);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/19 16:17:37 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/21 18:53:38 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/03 19:07:39 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -45,15 +45,15 @@ void	push_min(t_piles *piles, int imin)
 	launch_cmd(piles, "pb");
 }
 
-void	algo_bucket(t_piles *piles)
+void	algo_bucket(t_piles **piles)
 {
 	int		len;
 
-	if (check_pile(piles, 0))
+	if (check_pile(*piles, 0))
 		return ;
-	len =  piles->a_len;
-	while (piles->b_len < len)
-		push_min(piles, get_min_index(piles));
-	while (piles->b_len > 0)
-		launch_cmd(piles, "pa");
+	len =  (*piles)->a_len;
+	while ((*piles)->b_len < len)
+		push_min(*piles, get_min_index(*piles));
+	while ((*piles)->b_len > 0)
+		launch_cmd(*piles, "pa");
 }

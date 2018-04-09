@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/20 17:41:36 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/02/20 17:41:37 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/06 19:43:29 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,6 +25,8 @@ int		check_pile_rotated(t_piles *piles)
 	int		min;
 	int		i;
 
+	if (!piles)
+		return (0);
 	i = 1;
 	min = get_min_index(piles);
 	while (i < (piles->a_len))

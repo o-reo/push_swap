@@ -6,20 +6,22 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/07 15:06:42 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/07 15:06:42 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/06 19:47:20 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void		reorder_pile(t_piles *piles)
+void		reorder_pile(t_piles **piles)
 {
 	int		dir;
+	t_piles	*tmp;
 
-	dir = get_min_index(piles) > (piles->a_len / 2);
-	while (get_min_index(piles) != 0)
-		piles = launch_cmd(piles, dir ? "rra" : "ra");
+	tmp = *piles;
+	dir = get_min_index(tmp) > (tmp->a_len / 2);
+	while (get_min_index(tmp) != 0)
+		tmp = launch_cmd(tmp, dir ? "rra" : "ra");
 }
 
 int			get_next_index(t_piles *piles, int lastind)

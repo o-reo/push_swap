@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/19 15:59:34 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/30 19:14:09 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/09 11:55:44 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -109,19 +109,16 @@ int			pile_len(t_piles *pile)
 	return (len);
 }
 
-void		reset_piles(t_piles *pile)
+t_piles		*reset_piles(t_piles **pile)
 {
-	int		len;
-	t_piles *pstart;
-
-	pstart = pile->next;
-	len = pile_len(pile) - 1;
-	while (len-- > 0 && pstart)
-	{
-		free_pile(pstart);
-		pstart = pstart->next;
-	}
-	pile->next = NULL;
+	// print_lst(*pile);
+	// ft_printf("STOP\n");
+	// if (*pile && pile_len(*pile) > 1)
+	free_pilelst((*pile)->next);
+	if ((*pile)->cmd)
+		free((*pile)->cmd);
+	(*pile)->next = NULL;
+	return (*pile);
 }
 
 t_piles		*fill_piles(t_piles *piles, char **line)

@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/06 11:09:21 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/30 17:46:44 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/06 19:47:42 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,17 +33,20 @@ typedef struct		s_piles
 	char			*cmd;
 	struct s_piles	*next;
 }					t_piles;
-void				reset_piles(t_piles *pile);
+t_piles				*reset_piles(t_piles **pile);
 void				free_pile(t_piles *pile);
-void				algo_bogo(t_piles *piles);
-t_piles				*post_process(t_piles *piles);
-void				algo_insert(t_piles *piles);
+void				algo_bogo(t_piles **piles);
+void				algo_select(t_piles **piles);
+void				algo_bucket(t_piles **piles);
+void				algo_quicksort(t_piles **piles);
+void				algo_insert(t_piles **piles);
+void				post_process(t_piles *piles);
 int 				get_index(t_piles *pile, int ab, int pos);
 int					value_to_index(t_piles *pile, int ab, int value);
 int					index_to_value(t_piles *pile, int ab, int index);
 t_piles				*launch_cmd(t_piles *pile, char *cmd);
 int					get_min_index(t_piles *piles);
-void				reorder_pile(t_piles *piles);
+void				reorder_pile(t_piles **piles);
 int					get_next_index(t_piles *piles, int lastind);
 intmax_t			ft_atoi_secure(char *str);
 int					avtoi(t_piles *piles, int ac, char **av);
@@ -61,9 +64,6 @@ int					real_index(t_piles *pile, int index);
 int					check_pile_rotated(t_piles *piles);
 int					get_min_index(t_piles *piles);
 int					check_pile(t_piles *pilelst, int print);
-void				algo_select(t_piles *piles);
-void				algo_bucket(t_piles *piles);
-void				algo_quicksort(t_piles *piles);
 int					init_piles(int ac, char **av, t_piles **piles);
 t_piles				*fill_piles(t_piles *piles, char **line);
 int					check_dup(t_piles *pstart);

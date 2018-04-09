@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/29 17:10:17 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/30 19:06:17 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/09 14:10:12 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,46 +37,52 @@ int		bogo(int seed, int *rand)
 }
 
 
-int			mono_bogo(t_piles *piles, int max)
+int			mono_bogo(t_piles **piles, int max)
 {
 	int		rd;
 	int		sd;
-	t_piles *pstart;
+	t_piles *pi;
 	int		ct;
 	int		guard;
 
 	guard = 200 * max * max;
 	ct = max;
-	pstart = piles;
+	pi = *piles;
 	sd = (int)&rd;
-	while (guard && (!check_pile_rotated(piles) || piles->b_len != 0))
+	while (guard && (!check_pile_rotated(pi) || pi->b_len != 0))
 	{
 		sd = bogo(sd, &rd);
-		piles = rd_cmd(piles, rd);
-		if (ct <= 0)
+		pi = rd_cmd(pi, rd);
+		if (ct < 0)
 		{
-			reset_piles(pstart);
-			piles = pstart;
-			ct = max;	
+			reset_piles(piles);
+			pi = *piles;
+			ct = max;
 			guard--;
 		}
 		ct--;
 	}
-	reorder_pile(piles);
-	if (!guard || (!check_pile(piles, 0) && piles->b_len != 0))
+
+	if (!guard || (!check_pile(*piles, 0) && (*piles)->b_len != 0))
 		return (0);
+	reorder_pile(&pi);
 	return (1);
 }
 
-void		algo_bogo(t_piles *piles)
+void		algo_bogo(t_piles **piles)
 {
 	int			i;
+	t_piles		*try;
 
 	i = 1;
+	try = *piles;
 	while (i < 200)
 	{
-		if (mono_bogo(piles, i))
+		if (mono_bogo(&try, i))
+		{
+			*piles = try;
 			return ;
+		}
 		i++;
 	}
 }

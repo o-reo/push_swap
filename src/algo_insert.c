@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/26 13:34:47 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/29 16:39:21 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/06 19:48:09 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,17 +47,17 @@ t_piles		*insert(t_piles *pile, int ab, int to_insert, int i)
 	return (pile);
 }
 
-void		algo_insert(t_piles *piles)
+void	algo_insert(t_piles **piles)
 {
 	int		i;
 	int 	*index_tab;
 
 	i = 1;
-	index_tab = piles->index_a;
-	while (i < piles->a_len && !check_pile_rotated(piles))
+	index_tab = (*piles)->index_a;
+	while (i < (*piles)->a_len && !check_pile_rotated(*piles))
 	{
-		piles = go_to(piles, 0, index_tab[i]);
-		piles = insert(piles, 0, index_tab[i], i);
+		*piles = go_to(*piles, 0, index_tab[i]);
+		*piles = insert(*piles, 0, index_tab[i], i);
 		i++;
 	}
 	reorder_pile(piles);

@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/29 15:37:35 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/29 16:38:26 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/03 19:06:14 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,7 +38,7 @@ void		cmd_insert(t_piles *curpile, char *cmd)
 	curpile->next = next_pile;
 }
 
-t_piles		*post_process(t_piles *piles)
+void		post_process(t_piles *piles)
 {
 	t_piles		*pi;
 
@@ -52,5 +52,4 @@ t_piles		*post_process(t_piles *piles)
 			pi = cmd_replace(pi, 3, "sa");
 		pi = pi->next;
 	}
-	return (piles);
 }

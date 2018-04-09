@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/07 17:47:04 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/07 17:47:04 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/03 19:09:31 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -169,8 +169,8 @@ t_piles		*ft_qsort(t_piles *pile, int st, int end)
 	return (pile);
 }
 
-void		algo_quicksort(t_piles *piles)
+void		algo_quicksort(t_piles **piles)
 {
 //	printf("bilog is %i\n", bilog(piles->pile_a[0]));
-	piles = ft_qsort(piles, 0, piles->a_len);
+	ft_qsort(*piles, 0, (*piles)->a_len);
 }

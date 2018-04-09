@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/20 11:36:58 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/29 16:49:47 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/06 19:47:57 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -78,19 +78,19 @@ t_piles		*swap_min(t_piles *pile, int dst, int src)
 	return (pile);
 }
 
-void		algo_select(t_piles *piles)
+void		algo_select(t_piles **piles)
 {
 //	piles = far_swap(piles, 2 , 0);
 	int		prev;
 
-	if (check_pile(piles, 0))
+	if (check_pile(*piles, 0))
 		return ;
 	prev = 0;
-	while (piles && !check_pile_rotated(piles) &&
-			get_next_index(piles, prev) != -1)
+	while (*piles && !check_pile_rotated(*piles) &&
+			get_next_index(*piles, prev) != -1)
 	{
-		printf("prev index is %i, index %i will be put before %i\n", prev, get_index(piles, 0, prev) + 1, get_next_index(piles, prev));
-		piles = swap_min(piles, get_index(piles, 0, prev) + 1, get_next_index(piles, prev));
+		printf("prev index is %i, index %i will be put before %i\n", prev, get_index(*piles, 0, prev) + 1, get_next_index(*piles, prev));
+		*piles = swap_min(*piles, get_index(*piles, 0, prev) + 1, get_next_index(*piles, prev));
 		prev++;
 	}
 	reorder_pile(piles);
