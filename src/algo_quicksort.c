@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/07 17:47:04 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/17 13:13:14 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/18 15:27:52 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,12 +26,10 @@ int			next_push(t_piles *pile, int st, int end, int ab)
 	while (i < pile_len && (index_tab[i] < st ||
 			index_tab[i] > (st + (end - st) / 2)))
 		i++;
-//	printf("i = %i index = %i stuff = %i\n", i, index_tab[i], st + (end - st) / 2);
 	j = 1;
 	while (j < pile_len && ((index_tab[pile_len - j]) < st ||
 			index_tab[pile_len - j] > (st + (end - st) / 2)))
 		j++;
-//	printf("j = %i index = %i\n", i, index_tab[pile_len - j]);
 	return (i > pile_len / 2 ? -j : i);
 }
 
@@ -61,7 +59,6 @@ t_piles		*pile_split(t_piles *pile, int st, int end, int ab)
 	i = next_push(pile, st, end, ab);
 	while (check_push(pile, i, st, end, ab))
 	{
-//		printf("%i, check %i\n", i, check_push(pile, i, st, end, ab));
 		if (i >= 0)
 		{
 			while (i--)
@@ -123,22 +120,21 @@ t_piles		*seq_split(t_piles *pile, int st, int end, int ab)
 	return (pile);
 }
 
-t_piles		*seq_split_sup(t_piles *pile, int st, int end, int ab)
+t_piles		*seq_split_sup(t_piles *pile, int end)
 {
 	int			i;
 	int			*index_tab;
 	int 		med;
 
-	i = st;
-	index_tab = !ab ? pile->index_a : pile->index_b;
-	med = index_tab[get_median(pile, st, end, ab)];
+	i = 0;
+	index_tab = pile->index_b;
+	med = pile->index_b[get_median(pile, 0, end, 1)];
 	while (i < end)
 	{
-		index_tab = !ab ? pile->index_a : pile->index_b;
-		if (index_tab[0] >= med)
-			pile = launch_cmd(pile, !ab ? "pb" : "pa");
+		if (pile->index_b[0] >= med)
+			pile = launch_cmd(pile, "pa");
 		else
-			pile = launch_cmd(pile, !ab ? "ra" : "rb");
+			pile = launch_cmd(pile, "rb");
 		i++;
 	}
 	return (pile);
@@ -159,6 +155,16 @@ t_piles		*go_to_b(t_piles *pile, int togo)
 	return (pile);
 }
 
+int 		logbin(int n)
+{
+	int 	pow;
+
+	pow = 0;
+	while (n >> pow != 0)
+		pow++;
+	return (pow);
+}
+
 t_piles		*pa_max(t_piles *pile)
 {
 	int		max;
@@ -177,37 +183,56 @@ t_piles		*pa_max(t_piles *pile)
 	return (pile);
 }
 
-int			end_ordered(t_piles *pile)
+int			get_max_b(t_piles *pile)
 {
-	int		index;
+	int		max;
+	int		i;
 
-	index = 0;
-	while (pile->index_a[index + 1] == pile->index_a[index] + 1)
-		index++;
-	return (real_index(pile, index + 1));
+	i = 0;
+	max = 0;
+	while (i < pile->b_len)
+	{
+		if (pile->index_b[i] > max)
+			max = pile->index_b[i];
+		i++;
+	}
+	return (max);
+}
+
+int			get_min_b(t_piles *pile)
+{
+	int		min;
+	int		i;
+
+	i = 0;
+	min = CINT_MAX;
+	while (i < pile->b_len)
+	{
+		if (pile->index_b[i] < min)
+			min = pile->index_b[i];
+		i++;
+	}
+	return (min);
 }
 
 t_piles		*halfsort(t_piles *pile, int end)
 {
 	int		current;
-	int		max;
 
 	while (pile->b_len > QS_THRESHOLD)
 	{
-		pile = seq_split_sup(pile, 0, end / 2, 1);
+		pile = seq_split_sup(pile, end / 2);
 		end /= 2;
 	}
-	current = 0;
+	current = pile->b_len;
 	while (pile->b_len > 0)
-	{
 		pile = pa_max(pile);
-		current++;
-	}
 	while (current--)
 		pile = launch_cmd(pile, "ra");
-	max = pile->index_a[pile->a_len - 1];
-	while (pile->a_len > 0 && pile->index_a[0] > max &&
-	pile->index_a[0] <= (2 * max + 2))
+	end /= 2;
+	while (pile->a_len > 0 && end-- &&
+	(!check_pile_rotated(pile) || pile->b_len != 0) &&
+	pile->index_a[0] != 0)
 		pile = launch_cmd(pile, "pb");
 	return (pile);
 }
@@ -220,7 +245,7 @@ void		algo_quicksort(t_piles **pile)
 
 	step = *pile;
 	end = (*pile)->a_len;
-	guard = 3000;
+	guard = 500;
 	step = seq_split(step, 0, end, 0);
 	while (guard-- && (!check_pile_rotated(*pile) || (*pile)->b_len != 0))
 		step = halfsort(step, end);
