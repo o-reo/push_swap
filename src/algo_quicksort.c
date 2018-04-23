@@ -3,15 +3,15 @@
 /*                                                              /             */
 /*   algo_quicksort.c                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
+/*   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/07 17:47:04 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/17 13:13:14 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/23 21:54:24 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../includes/push_swap.h"
 
 int			next_push(t_piles *pile, int st, int end, int ab)
 {
@@ -26,12 +26,10 @@ int			next_push(t_piles *pile, int st, int end, int ab)
 	while (i < pile_len && (index_tab[i] < st ||
 			index_tab[i] > (st + (end - st) / 2)))
 		i++;
-//	printf("i = %i index = %i stuff = %i\n", i, index_tab[i], st + (end - st) / 2);
 	j = 1;
 	while (j < pile_len && ((index_tab[pile_len - j]) < st ||
 			index_tab[pile_len - j] > (st + (end - st) / 2)))
 		j++;
-//	printf("j = %i index = %i\n", i, index_tab[pile_len - j]);
 	return (i > pile_len / 2 ? -j : i);
 }
 
@@ -61,7 +59,6 @@ t_piles		*pile_split(t_piles *pile, int st, int end, int ab)
 	i = next_push(pile, st, end, ab);
 	while (check_push(pile, i, st, end, ab))
 	{
-//		printf("%i, check %i\n", i, check_push(pile, i, st, end, ab));
 		if (i >= 0)
 		{
 			while (i--)
@@ -123,22 +120,19 @@ t_piles		*seq_split(t_piles *pile, int st, int end, int ab)
 	return (pile);
 }
 
-t_piles		*seq_split_sup(t_piles *pile, int st, int end, int ab)
+t_piles		*seq_split_sup(t_piles *pile, int st, int end)
 {
 	int			i;
-	int			*index_tab;
 	int 		med;
 
 	i = st;
-	index_tab = !ab ? pile->index_a : pile->index_b;
-	med = index_tab[get_median(pile, st, end, ab)];
+	med = pile->index_b[get_median(pile, st, end, 1)];
 	while (i < end)
 	{
-		index_tab = !ab ? pile->index_a : pile->index_b;
-		if (index_tab[0] >= med)
-			pile = launch_cmd(pile, !ab ? "pb" : "pa");
+		if (pile->index_b[0] >= med)
+			pile = launch_cmd(pile, "pa");
 		else
-			pile = launch_cmd(pile, !ab ? "ra" : "rb");
+			pile = launch_cmd(pile, "rb");
 		i++;
 	}
 	return (pile);
@@ -159,6 +153,16 @@ t_piles		*go_to_b(t_piles *pile, int togo)
 	return (pile);
 }
 
+int 		logbin(int n)
+{
+	int 	pow;
+
+	pow = 0;
+	while (n >> pow != 0)
+		pow++;
+	return (pow);
+}
+
 t_piles		*pa_max(t_piles *pile)
 {
 	int		max;
@@ -177,51 +181,222 @@ t_piles		*pa_max(t_piles *pile)
 	return (pile);
 }
 
-int			end_ordered(t_piles *pile)
+t_piles		*pb_min(t_piles *pile)
 {
-	int		index;
+	int		min;
+	int		i;
 
-	index = 0;
-	while (pile->index_a[index + 1] == pile->index_a[index] + 1)
-		index++;
-	return (real_index(pile, index + 1));
+	i = 0;
+	min = CINT_MAX;
+	while (i < pile->a_len)
+	{
+		if (pile->index_a[i] <= min)
+			min = pile->index_a[i];
+		i++;
+	}
+	pile = go_to(pile, min);
+	pile = launch_cmd(pile, "pb");
+	return (pile);
 }
 
-t_piles		*halfsort(t_piles *pile, int end)
+int			get_max_b(t_piles *pile)
 {
-	int		current;
 	int		max;
+	int		i;
 
-	while (pile->b_len > QS_THRESHOLD)
+	i = 0;
+	max = 0;
+	while (i < pile->b_len)
 	{
-		pile = seq_split_sup(pile, 0, end / 2, 1);
-		end /= 2;
+		if (pile->index_b[i] > max)
+			max = pile->index_b[i];
+		i++;
 	}
-	current = 0;
-	while (pile->b_len > 0)
+	return (max);
+}
+
+int			get_min_b(t_piles *pile)
+{
+	int		min;
+	int		i;
+
+	i = 0;
+	min = CINT_MAX;
+	while (i < pile->b_len)
 	{
-		pile = pa_max(pile);
-		current++;
+		if (pile->index_b[i] < min)
+			min = pile->index_b[i];
+		i++;
 	}
-	while (current--)
-		pile = launch_cmd(pile, "ra");
-	max = pile->index_a[pile->a_len - 1];
-	while (pile->a_len > 0 && pile->index_a[0] > max &&
-	pile->index_a[0] <= (2 * max + 2))
+	return (min);
+}
+
+t_piles		*auto_split_b(t_piles *pile, int st, int end)
+{
+	int			ct;
+
+	ct = 0;
+	end = end > pile->b_len + pile->a_len ? pile->b_len + pile->a_len : end;
+	st = st < 0 ? 0 : st;
+	while (ct < (end - st))
+	{
+		if (pile->index_b[0] < end && pile->index_b[0] >= st)
+		{
+			pile = launch_cmd(pile, "pa");
+			ct++;
+		}
+		else
+			pile = launch_cmd(pile, "rb");
+	}
+	return (pile);
+}
+
+t_piles		*auto_split_a(t_piles *pile, int st, int end)
+{
+	int			ct;
+
+	ct = 0;
+	end = end > pile->a_len + pile->b_len ? pile->a_len + pile->b_len : end;
+	st = st < 0 ? 0 : st;
+	while (ct < (end - st))
+	{
+		if (pile->index_a[0] < end && pile->index_a[0] >= st)
+		{
+			pile = launch_cmd(pile, "pb");
+			ct++;
+		}
+		else
+			pile = launch_cmd(pile, "ra");
+	}
+	return (pile);
+}
+
+t_piles		*rev_split_a(t_piles *pile, int st, int end)
+{
+	int			ct;
+
+	ct = 0;
+	end = end > pile->a_len + pile->b_len ? pile->a_len + pile->b_len : end;
+	st = st < 0 ? 0 : st;
+	while (ct < (end - st))
+	{
+		if (pile->index_a[0] < end && pile->index_a[0] >= st)
+		{
+			pile = launch_cmd(pile, "pb");
+			ct++;
+		}
+		else
+			pile = launch_cmd(pile, "rra");
+	}
+	return (pile);
+}
+
+int			end_ordered(t_piles *pile)
+{
+	int		i;
+
+	i = 0;
+	while (pile->index_a[i] != 0)
+		i++;
+	while (pile->index_a[real_index(pile, i + 1)] == pile->index_a[i] + 1)
+		i++;
+	return (pile->index_a[i]);
+}
+
+t_piles		*pb_next(t_piles *pile, int to_push)
+{
+	while (to_push-- > 0)
 		pile = launch_cmd(pile, "pb");
 	return (pile);
 }
 
+t_piles		*mini_sort(t_piles *pile, int end)
+{
+	int		st;
+
+	st = get_max_b(pile);
+	while (pile->b_len > 0)
+		pile = pa_max(pile);
+	pile = go_to(pile, st);
+	pile = launch_cmd(pile, "ra");
+	pile = pb_next(pile, end - st - 1);
+	return (pile);
+}
+
+void		launch_qs(t_piles **pile, int end)
+{
+	int		st;
+
+	st = end_ordered(*pile);
+	if ((*pile)->b_len)
+		*pile = seq_split_sup(*pile, st, (*pile)->b_len);
+	else
+		*pile = seq_split(*pile, st, (*pile)->a_len, 0);
+	if ((*pile)->b_len > QS_THRESHOLD)
+		launch_qs(pile, (*pile)->b_len);
+	*pile = mini_sort(*pile, end);
+}
+
+void		fixed_split(t_piles **pile)
+{
+	int		i;
+
+	i = 0;
+	while (i < ((*pile)->b_len + (*pile)->a_len + QS_THRESHOLD))
+	{
+		*pile = auto_split_a(*pile, i, i + QS_THRESHOLD);
+		i += QS_THRESHOLD;
+	}
+	while ((*pile)->b_len > 0)
+		*pile = pa_max(*pile);
+}
+
+t_piles		*threshold_sort(t_piles *pile)
+{
+	while (pile->a_len > 0)
+		pile = pb_min(pile);
+	while (pile->b_len > 0)
+		pile = pa_max(pile);
+	return (pile);
+}
+
+void		double_split(t_piles **pile)
+{
+	int		i;
+	int		blen;
+	int		ref1;
+	int		ref2;
+	int		dir;
+
+	*pile = seq_split(*pile, 0, (*pile)->a_len, 0);
+	blen = (*pile)->b_len;
+	i = (*pile)->b_len - QS_THRESHOLD;
+	while (i >= -QS_THRESHOLD)
+	{
+		*pile = auto_split_b(*pile, i, i + QS_THRESHOLD);
+		i -= QS_THRESHOLD;
+	}
+	i = (*pile)->b_len + (*pile)->a_len - QS_THRESHOLD;
+	ref1 = (*pile)->index_a[0];
+	ref2 = (*pile)->index_a[blen - 2];
+	dir = 0;
+	while (i > blen - QS_THRESHOLD)
+	{
+		*pile = !dir ? rev_split_a(*pile, i, i + QS_THRESHOLD) :
+		auto_split_a(*pile, i, i + QS_THRESHOLD);
+		*pile = !dir ? go_to(*pile, ref2) : go_to(*pile, ref1);
+		i -= QS_THRESHOLD;
+		dir = !dir;
+	}
+	*pile = threshold_sort(*pile);
+}
+
 void		algo_quicksort(t_piles **pile)
 {
-	int		guard;
-	int		end;
 	t_piles	*step;
 
 	step = *pile;
-	end = (*pile)->a_len;
-	guard = 3000;
-	step = seq_split(step, 0, end, 0);
-	while (guard-- && (!check_pile_rotated(*pile) || (*pile)->b_len != 0))
-		step = halfsort(step, end);
+	double_split(&step);
+	// fixed_split(&step);
+	// launch_qs(&step, (step->a_len + step->b_len));
 }

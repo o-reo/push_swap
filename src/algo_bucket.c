@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/19 16:17:37 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/11 14:16:22 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/20 16:45:22 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,7 +24,7 @@ void	algo_bucket(t_piles **piles)
 	step = *piles;
 	while (i < (*piles)->a_len - 1)
 	{
-		step = go_to(step, 0, i);
+		step = go_to(step, i);
 		step = launch_cmd(step, "pb");
 		i++;
 	}

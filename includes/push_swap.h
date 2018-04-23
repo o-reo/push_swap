@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   push_swap.h                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
+/*   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/06 11:09:21 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/17 13:13:24 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/23 20:59:46 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,26 +14,27 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include <stdlib.h>
-# include <stdarg.h>
 # include <unistd.h>
 # include <stdio.h>
-# include "libft.h"
-# include "ft_printf.h"
+# include <stdarg.h>
+# include "../libft/includes/libft.h"
+# include "../libft/includes/ft_printf.h"
 # define CINT_MAX 2147483647
 # define CINT_MIN -2147483648
-# define QS_THRESHOLD 36
+# define QS_THRESHOLD 17
+
 typedef struct		s_piles
 {
 	int				*pile_a;
-	int 			*index_a;
+	int				*index_a;
 	int				a_len;
 	int				*pile_b;
-	int 			*index_b;
+	int				*index_b;
 	int				b_len;
 	char			*cmd;
 	struct s_piles	*next;
 }					t_piles;
-t_piles				*go_to(t_piles *pile, int ab, int togo);
+t_piles				*go_to(t_piles *pile, int togo);
 t_piles				*reset_piles(t_piles **pile);
 void				free_pile(t_piles *pile);
 void				algo_bogo(t_piles **piles);
@@ -42,7 +43,7 @@ void				algo_bucket(t_piles **piles);
 void				algo_quicksort(t_piles **piles);
 void				algo_insert(t_piles **piles);
 void				post_process(t_piles *piles);
-int 				get_index(t_piles *pile, int ab, int pos);
+int					get_index(t_piles *pile, int ab, int pos);
 int					value_to_index(t_piles *pile, int ab, int value);
 int					index_to_value(t_piles *pile, int ab, int index);
 t_piles				*launch_cmd(t_piles *pile, char *cmd);

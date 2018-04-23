@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   algo_bogo.c                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
+/*   By: eruaud <eruaud@student.42.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/29 17:10:17 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/10 16:22:38 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/23 22:01:26 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,7 +15,7 @@
 
 
 t_piles		*rd_cmd(t_piles *pile, int i)
-{	
+{
 	if (i == 0)
 		pile = launch_cmd(pile, "pb");
 	else if (i == 1)

@@ -6,7 +6,7 @@
 /*   By: eruaud <eruaud@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/12 12:27:38 by eruaud       #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/11 12:39:56 by eruaud      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/20 16:45:07 by eruaud      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,17 +29,12 @@ int 	get_index(t_piles *pile, int ab, int pos)
 	return (i);
 }
 
-t_piles		*go_to(t_piles *pile, int ab, int togo)
+t_piles		*go_to(t_piles *pile, int togo)
 {
-	int		*index_tab;
 	int		dir;
 
-	dir = get_index(pile, ab, togo) <= pile->a_len / 2;
-	index_tab = !ab ? pile->index_a : pile->index_b;
-	while (index_tab[0] != togo)
-	{
+	dir = get_index(pile, 0, togo) <= pile->a_len / 2;
+	while (pile->index_a[0] != togo)
 		pile = launch_cmd(pile, dir ? "ra" : "rra");
-		index_tab = !ab ? pile->index_a : pile->index_b;
-	}
 	return (pile);
 }
