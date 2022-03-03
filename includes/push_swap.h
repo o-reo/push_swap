@@ -22,6 +22,10 @@
 # define CINT_MAX 2147483647
 # define CINT_MIN -2147483648
 # define QS_THRESHOLD 17
+# include <stdint.h>
+
+typedef uintmax_t uint64_t;
+typedef intmax_t int64_t;
 
 typedef struct		s_piles
 {

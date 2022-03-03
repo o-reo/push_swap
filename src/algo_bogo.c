@@ -54,7 +54,7 @@ int			mono_bogo(t_piles **piles, int max)
 	guard = 200 * max * max;
 	ct = max;
 	pi = *piles;
-	sd = (int)&rd;
+	sd = (long)&rd;
 	while (guard && (!check_pile_rotated(pi) || pi->b_len != 0))
 	{
 		sd = bogo(sd, &rd);

@@ -92,8 +92,10 @@ int				prf_d_type(intmax_t nb, const t_format *opt)
 		printed += putnchar(1, ' ');
 	putnchar(spaces * !contains(opt->flags, '-'), ' ');
 	putnchar((contains(opt->flags, '+') && nb >= 0), '+');
-	if (prec == opt->width && contains(opt->flags, '+') && nb >= 0)
-		prec-- && printed--;
+	if (prec == opt->width && contains(opt->flags, '+') && nb >= 0) {
+		prec--;
+		printed--;
+	}
 	printed += ((contains(opt->flags, '+') && nb >= 0 && spaces <= 0));
 	if (!stop)
 		writeandfree(nb, prec);

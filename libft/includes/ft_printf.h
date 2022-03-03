@@ -17,6 +17,10 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <stdint.h>
+
+typedef uintmax_t uint64_t;
+typedef intmax_t int64_t;
 
 typedef struct	s_format
 {

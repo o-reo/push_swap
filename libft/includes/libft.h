@@ -23,6 +23,11 @@
 # include <fcntl.h>
 # define BUFF_SIZE 3
 
+# include <stdint.h>
+
+typedef uintmax_t uint64_t;
+typedef intmax_t int64_t;
+
 typedef	struct		s_list
 {
 	void			*content;

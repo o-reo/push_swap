@@ -27,11 +27,12 @@ int				prf_p(void *ptr, const t_format *opt)
 	len = hlen < prec ? prec : hlen * (prec != -1);
 	sp = (opt->width - len - 2) * ((opt->width - len - 2) > 0);
 	sp = !(opt->width && contains(opt->flags, '0') && opt->prec == 0) * sp;
-	if (!ptr)
+	if (!ptr) {
 		return (putnchar(sp * !contains(opt->flags, '-'), ' ') +
 				putnstr("0x", 0, 2) +
 				putnchar(len, '0') +
 				putnchar(sp * contains(opt->flags, '-'), ' '));
+	}
 		putnchar(sp * !contains(opt->flags, '-'), ' ');
 	putnstr("0x", 0, 2);
 	str = ft_prf_itoa_x((uintmax_t)ptr, 0, len);

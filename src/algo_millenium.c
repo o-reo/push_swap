@@ -49,10 +49,8 @@ int			get_median(t_piles *pile, int st, int end, int ab)
 
 t_piles		*seq_split(t_piles *pile, int st, int end)
 {
-	int			i;
 	int			med;
 
-	i = st;
 	med = pile->index_a[get_median(pile, st, end, 0)];
 	while (pile->b_len < (end / 2))
 	{

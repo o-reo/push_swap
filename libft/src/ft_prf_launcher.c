@@ -16,9 +16,7 @@
 size_t		format_len(char *prct)
 {
 	size_t		len;
-	int			status;
 
-	status = 0;
 	if (prct[0] != '%')
 		return (0);
 	len = 1;
